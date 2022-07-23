@@ -1,0 +1,58 @@
+
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.board {
+    display: grid;
+    height: 600px;
+    width: 600px;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;    
+    grid-template-columns: repeat(3, auto);
+}
+
+.cell {
+    height: 150px;
+    width: 150px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+    border-top: none;
+}
+
+.cell:first-child,
+.cell:nth-child(4),
+.cell:nth-child(7) {
+    border-left: none;
+}
+
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7) {
+    border-bottom: none;
+}
+
+.cell:last-child,
+.cell:nth-child(6),
+.cell:nth-child(3) {
+    border-right: none;
+}
+
+.cell:hover {
+    filter: brightness(0.95);
+}
