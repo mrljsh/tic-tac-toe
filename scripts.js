@@ -34,7 +34,24 @@ const displayBoard = (() => {
         document.body.appendChild(board);
     }();
 
-    const showArray = console.log(gameBoard.getArray());
+    const boardArray = gameBoard.getArray();
 
-    return { createBoard, showArray };
+    const updateGameBoard = () => {
+        const fields = document.querySelectorAll(".field");
+        for (let i = 0; i < boardArray.length; i++) {
+            fields[i].textContent = boardArray[i];
+        }
+    };
+
+    const clickToPlay = (() => {
+        const clickToPlayCells = document.querySelectorAll(".cell");
+        clickToPlayCells.forEach((cell, index) => {
+            cell.addEventListener("click", () => {
+                gameBoard.makeMove(index);
+                updateGameBoard();
+            });
+        });
+    })();
+
+    return { createBoard, boardArray, updateGameBoard };
 })();
