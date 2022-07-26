@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 
 *, ::before, ::after {
     box-sizing: border-box;
@@ -55,4 +56,13 @@ body {
 
 .cell:hover {
     filter: brightness(0.95);
+}
+
+.field {
+    font-size: 100px;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    font-family: 'Permanent Marker', cursive;
 }
