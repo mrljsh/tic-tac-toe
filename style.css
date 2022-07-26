@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Permanent+Marker&display=swap');
+
+:root {
+    --green-color: #22C55E;
+}
 
 *, ::before, ::after {
     box-sizing: border-box;
@@ -10,6 +15,20 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+h1 {
+    font-family: 'Alata', sans-serif;
+    font-size: 36px;
+}
+
+.announcer {
+    font-family: 'Alata', sans-serif;
+    font-size: 48px;
+}
+
+.announcer.winner {
+    color: var(--green-color);
 }
 
 .board {
@@ -65,4 +84,8 @@ body {
     margin: 0;
     text-align: center;
     font-family: 'Permanent Marker', cursive;
+}
+
+.field.winner {
+    color: var(--green-color);
 }

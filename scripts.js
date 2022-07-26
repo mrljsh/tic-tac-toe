@@ -7,7 +7,9 @@ const gameBoard = (() => {
 
     const nextTurn = () => { turn = turn === "X" ? "O" : "X" };
 
-    const getTurn = () => {return turn;};
+    const getTurn = () => {return turn};
+
+    const getIsOver = () => {return isOver};
 
     const makeMove = index => {
         if(isOver === true){
@@ -17,6 +19,7 @@ const gameBoard = (() => {
         if(gameBoardArray[index] !== null) {
             return;
         }
+
         gameBoardArray[index] = turn;
         nextTurn();
         checkWinner();
@@ -33,7 +36,7 @@ const gameBoard = (() => {
                 gameBoardArray[winningCombination[index][1]] === gameBoardArray[winningCombination[index][2]] &&
                 gameBoardArray[winningCombination[index][0]] !== null) {
                     isOver = true;
-                    console.log(winningCombination[index]);
+                    return winningCombination[index];
                 };
         };
 
@@ -41,7 +44,7 @@ const gameBoard = (() => {
     };
     
 
-    return { getArray, makeMove, getTurn };
+    return { getArray, makeMove, getTurn, getIsOver, checkWinner };
 })();
 
 const displayBoard = (() => {
@@ -70,13 +73,18 @@ const displayBoard = (() => {
 
     const boardArray = gameBoard.getArray();
     const announcer = document.querySelector(".announcer");
+    const fields = document.querySelectorAll(".field");
 
     const updateGameBoard = () => {
-        const fields = document.querySelectorAll(".field");
         for (let i = 0; i < boardArray.length; i++) {
             fields[i].textContent = boardArray[i];
         }
         announcer.textContent = `PLAYER ${gameBoard.getTurn()}'s TURN`;
+
+        if(gameBoard.getIsOver() === true){
+            const winningCombination = gameBoard.checkWinner();
+            updateWinner(winningCombination);
+        }
     };
 
     const clickToPlay = (() => {
@@ -89,5 +97,14 @@ const displayBoard = (() => {
         });
     })();
 
-    return { createBoard, boardArray, updateGameBoard };
+    const updateWinner = (winningCombination) => {
+        const winner = boardArray[winningCombination[0]];
+        announcer.textContent = `PLAYER ${winner}'s WIN`;
+        announcer.classList.add("winner");
+        for (let i = 0; i < winningCombination.length; i++) {
+            fields[winningCombination[i]].classList.add("winner")
+        }
+        } 
+
+    return { createBoard, boardArray, updateGameBoard, updateWinner };
 })();
