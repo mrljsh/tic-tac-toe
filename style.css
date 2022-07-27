@@ -3,6 +3,7 @@
 
 :root {
     --green-color: #22C55E;
+    --red-color: #EF4444;
 }
 
 *, ::before, ::after {
@@ -29,6 +30,10 @@ h1 {
 
 .announcer.winner {
     color: var(--green-color);
+}
+
+.announcer.draw {
+    color: var(--red-color);
 }
 
 .board {
@@ -84,6 +89,7 @@ h1 {
     margin: 0;
     text-align: center;
     font-family: 'Permanent Marker', cursive;
+    user-select: none;
 }
 
 .field.winner {

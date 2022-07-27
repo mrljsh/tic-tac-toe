@@ -2,17 +2,27 @@ const gameBoard = (() => {
     let turn = "X";
     let gameBoardArray = Array(9).fill(null);
     let isOver = false;
+    let round = 0;
 
     const getArray = () => {return gameBoardArray};
 
-    const nextTurn = () => { turn = turn === "X" ? "O" : "X" };
+    const nextTurn = () => { 
+        turn = turn === "X" ? "O" : "X";
+        round++;
+     };
 
     const getTurn = () => {return turn};
 
     const getIsOver = () => {return isOver};
 
+    const getRound = () => {return round;}
+
     const makeMove = index => {
         if(isOver === true){
+            return;
+        }
+
+        if(round >= 9){
             return;
         }
 
@@ -30,21 +40,32 @@ const gameBoard = (() => {
         [0, 1, 2], [3, 4, 5], [6, 7, 8],
         [0, 3, 6], [1, 4, 7], [2, 5, 8],
         [0, 4, 8], [2, 4, 6]];
+
+        let winnersCombination = [];
     
         for (let index = 0; index < winningCombination.length; index++){
             if(gameBoardArray[winningCombination[index][0]] === gameBoardArray[winningCombination[index][1]] &&
                 gameBoardArray[winningCombination[index][1]] === gameBoardArray[winningCombination[index][2]] &&
                 gameBoardArray[winningCombination[index][0]] !== null) {
                     isOver = true;
-                    return winningCombination[index];
+                    winnersCombination = winningCombination[index];
                 };
         };
 
-    
+        return winnersCombination;
     };
-    
 
-    return { getArray, makeMove, getTurn, getIsOver, checkWinner };
+    const reset = () => {
+        for (let i = 0; i < gameBoardArray.length; i++) {
+            gameBoardArray[i] = null;
+        }
+        round = 0;
+        turn = "X";
+        isOver = false;
+        displayBoard.displayReset();
+    };
+
+    return { getArray, makeMove, getTurn, getIsOver, checkWinner, getRound, reset };
 })();
 
 const displayBoard = (() => {
@@ -81,6 +102,10 @@ const displayBoard = (() => {
         }
         announcer.textContent = `PLAYER ${gameBoard.getTurn()}'s TURN`;
 
+        if(gameBoard.getRound() > 8 && gameBoard.getIsOver() === false){
+            updateDraw(); 
+        }
+
         if(gameBoard.getIsOver() === true){
             const winningCombination = gameBoard.checkWinner();
             updateWinner(winningCombination);
@@ -104,7 +129,22 @@ const displayBoard = (() => {
         for (let i = 0; i < winningCombination.length; i++) {
             fields[winningCombination[i]].classList.add("winner")
         }
-        } 
+    } 
 
-    return { createBoard, boardArray, updateGameBoard, updateWinner };
+    const updateDraw = () => {
+        announcer.textContent = "ITS DRAW! Play again";
+        announcer.classList.remove("winner");
+        announcer.classList.add("draw");
+    }
+
+    const displayReset = () => {
+        announcer.textContent = "CLICK TO PLAY!"
+        announcer.classList.remove("winner", "draw");
+        fields.forEach(field => {
+            field.classList.remove("winner");
+        });
+        updateGameBoard();
+    }
+
+    return { createBoard, boardArray, updateGameBoard, updateWinner, updateDraw, displayReset };
 })();
