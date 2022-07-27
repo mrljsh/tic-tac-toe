@@ -79,6 +79,13 @@ const displayBoard = (() => {
         board.classList.add('board');
         board.setAttribute("id", "board")
 
+        const button = document.createElement('button');
+        button.textContent = "RESTART GAME";
+        button.classList.add("button");
+        button.addEventListener("click", () => {
+            gameBoard.reset();
+        });
+
         for (let i = 0; i < 9; i++) {
             const cell = document.createElement('div');
             const para = document.createElement("p");
@@ -90,6 +97,7 @@ const displayBoard = (() => {
 
         document.body.appendChild(announcer);
         document.body.appendChild(board);
+        document.body.appendChild(button);
     }();
 
     const boardArray = gameBoard.getArray();
